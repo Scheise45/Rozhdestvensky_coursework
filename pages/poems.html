@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Стихи — Роберт Рождественский</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/main.js"></script>
+    <style>
+        .poems-layout {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .poems-sidebar {
+            flex: 1;
+            min-width: 200px;
+            background: #f4f6ef;
+            padding: 20px;
+            border-radius: 24px;
+            height: fit-content;
+        }
+        .poems-sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .poems-sidebar li {
+            margin: 12px 0;
+        }
+        .poem-link {
+            display: block;
+            padding: 10px 16px;
+            background: white;
+            border-radius: 40px;
+            text-decoration: none;
+            color: #2c3e2f;
+            font-weight: 500;
+            transition: 0.2s;
+            border: 1px solid #ddd;
+            cursor: pointer;
+        }
+        .poem-link:hover {
+            background: #2c5f2d;
+            color: white;
+            border-color: #2c5f2d;
+        }
+        .poem-viewer {
+            flex: 3;
+            background: #fefcf8;
+            border-radius: 28px;
+            padding: 24px 32px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .poem-viewer h2 {
+            border-left: none;
+            text-align: center;
+            font-size: 1.9rem;
+            margin-top: 0;
+        }
+        .poem-text {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            white-space: pre-line;
+            margin-top: 24px;
+        }
+
+        
+
+        @media (max-width: 700px) {
+            .poems-layout { flex-direction: column; }
+        }
+        .debug-info {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 20px;
+            text-align: center;
+            border-top: 1px solid #eee;
+            padding-top: 16px;
+        }
+    </style>
+</head>
+<body onload="loadDefaultPoem()">
+    <div class="container">
+        <h1>⭐ Стихи Роберта Рождественского</h1>
+
+        <div class="poems-layout">
+            <!-- Левая колонка — список стихов -->
+            <div class="poems-sidebar">
+                <h3>Стихотворения</h3>
+                <ul>
+                    <li><a class="poem-link" onclick="loadPoem('malo.txt', 'poemTitle', 'poemText'); return false;">Человеку надо мало...</a></li>
+                    <li><a class="poem-link" onclick="loadPoem('rekvium.txt', 'poemTitle', 'poemText'); return false;">Реквием</a></li>
+                    <li><a class="poem-link" onclick="loadPoem('echo.txt', 'poemTitle', 'poemText'); return false;">Эхо любви</a></li>
+                    <li><a class="poem-link" onclick="loadPoem('kraski.txt', 'poemTitle', 'poemText'); return false;">Баллада о красках</a></li>
+                    <li><a class="poem-link" onclick="loadPoem('pozvoni.txt', 'poemTitle', 'poemText'); return false;">Позвони мне, позвони</a></li>
+                    <li><a class="poem-link" onclick="loadPoem('tobe.txt', 'poemTitle', 'poemText'); return false;">Только тебе</a></li>
+                    <li><a class="poem-link" onclick="loadPoem('pervymi.txt', 'poemTitle', 'poemText'); return false;">Если вы есть — будьте первыми</a></li>
+                    <li><a class="poem-link" onclick="loadPoem('lyubvi.txt', 'poemTitle', 'poemText'); return false;">Всё начинается с любви</a></li>
+                    <li><a class="poem-link" onclick="loadPoem('on_ona.txt', 'poemTitle', 'poemText'); return false;">Он и она</a></li>
+                </ul>
+            </div>
+
+            <!-- Правая колонка — просмотр стиха -->
+            <div class="poem-viewer">
+                <h2 id="poemTitle">✨ Выберите стихотворение</h2>
+                <div id="poemText" class="poem-text" style="color: #333;">
+                    Нажмите на название стиха слева — текст загрузится из TXT файла.
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

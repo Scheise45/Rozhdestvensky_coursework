@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Навигация</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, 'Segoe UI', sans-serif;
+            background: #2c3e2f;
+            color: white;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .nav-container {
+            max-width: 1200px;
+            width: 100%;
+            padding: 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 16px;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 500;
+            letter-spacing: -0.3px;
+        }
+        .logo a {
+            color: white;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .nav-btn {
+            background: rgba(255,255,255,0.15);
+            padding: 8px 20px;
+            border-radius: 40px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.2s;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-1px);
+        }
+        @media (max-width: 700px) {
+            .nav-container { flex-direction: column; align-items: center; text-align: center; }
+            body { height: auto; min-height: 80px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-container">
+        <div class="logo">
+            <a href="content.html" target="contentFrame">Роберт Рождественский</a>
+        </div>
+        <div class="nav-links">
+            <a href="pages/biography.html" class="nav-btn" target="contentFrame">📖 Биография</a>
+            <a href="pages/poems.html" class="nav-btn" target="contentFrame">⭐ Стихи</a>
+            <a href="pages/photos.html" class="nav-btn" target="contentFrame">🖼️ Фото</a>
+            <a href="pages/quotes.html" class="nav-btn" target="contentFrame">✍️ Цитаты</a>
+        </div>
+    </div>
+</body>
+</html>

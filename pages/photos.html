@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Фотогалерея — Роберт Рождественский</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 28px;
+            margin: 40px 0;
+        }
+        .photo-card {
+            background: #fefcf8;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+        .photo-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 28px rgba(0,0,0,0.12);
+        }
+        .photo-card img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            display: block;
+            background: #f0f0f0;
+        }
+        .photo-caption {
+            padding: 18px 16px;
+            background: white;
+        }
+        .photo-title {
+            font-weight: 600;
+            color: #2c5f2d;
+            font-size: 1rem;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        .photo-source {
+            font-size: 0.75rem;
+            color: #888;
+            margin-top: 8px;
+            border-top: 1px solid #eee;
+            padding-top: 8px;
+        }
+        .photo-number {
+            display: inline-block;
+            background: #2c3e2f;
+            color: white;
+            font-size: 0.7rem;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+        .upload-section {
+            margin-top: 56px;
+            padding-top: 32px;
+            border-top: 2px dashed #ddd;
+        }
+        @media (max-width: 700px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .photo-card img {
+                height: 220px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🖼️ Фотогалерея Роберта Рождественского</h1>
+        <p style="margin-bottom: 24px;">Фотографии из разных лет: детство, учёба, творческие встречи, семья и друзья.</p>
+
+        <div id="photo-gallery" class="gallery-grid">
+            <div style="text-align: center; grid-column: 1/-1;">⏳ Загрузка фотографий...</div>
+        </div>
+
+        <div class="upload-section">
+            <h2>📸 Поделиться фотографией</h2>
+            <form action="#" method="post" enctype="multipart/form-data" id="uploadForm">
+                <div class="form-group">
+                    <label for="photo">Выберите фото (JPG или PNG)</label>
+                    <input type="file" id="photo" name="photo" accept="image/jpeg, image/png" required>
+                </div>
+                <div class="form-group">
+                    <label for="caption">Ваша подпись к фото</label>
+                    <input type="text" id="caption" name="caption" placeholder="Например: Рождественский в Переделкине, 1980-е годы">
+                </div>
+                <button type="submit">📤 Отправить фото</button>
+            </form>
+            <p style="margin-top: 16px; font-size: 0.85rem; color: #666;">
+                * Все фотографии проходят модерацию. Спасибо, что делитесь материалами о поэте!
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // База подписей к фото (на основе вашего текста)
+        const photoData = {
+            1: {
+                title: "Роберт Рождественский в детстве с матерью Верой",
+                year: "1944 год",
+                source: "Государственный музей истории литературы, искусства и культуры Алтая, Барнаул"
+            },
+            2: {
+                title: "Роберт Рождественский в детстве с матерью Верой",
+                year: "1944 год",
+                source: "Государственный музей истории литературы, искусства и культуры Алтая, Барнаул"
+            },
+            3: {
+                title: "Роберт Рождественский в детстве",
+                year: "1936 год",
+                source: "Государственный музей истории литературы, искусства и культуры Алтая, Барнаул"
+            },
+            4: {
+                title: "Роберт Рождественский во время выступления на «капустнике» в Литературном институте имени А.М. Горького",
+                year: "начало 1950-х годов",
+                source: "Государственный музей истории литературы, искусства и культуры Алтая, Барнаул"
+            },
+            5: {
+                title: "Роберт Рождественский (справа) и поэт Евгений Евтушенко",
+                year: "Москва, 1950-е годы",
+                source: "Государственный музей истории литературы, искусства и культуры Алтая, Барнаул"
+            },
+            18: {
+                title: "Роберт Рождественский. «Дрейфующий проспект»",
+                year: "1959 год",
+                source: "Издательство «Советский писатель», Москва"
+            },
+            6: {
+                title: "Роберт Рождественский",
+                year: "Москва, 1970-е годы",
+                source: "Государственный музей истории литературы, искусства и культуры Алтая, Барнаул"
+            },
+            7: {
+                title: "Роберт Рождественский (в центре) на премьере «Реквиема»",
+                year: "1962–1965 годы",
+                source: "Сергей Васин / Мультимедиа Арт Музей, Москва"
+            },
+            8: {
+                title: "Роберт Рождественский",
+                year: "Москва, 1960-е годы",
+                source: "Государственный музей истории литературы, искусства и культуры Алтая, Барнаул"
+            },
+            9: {
+                title: "Роберт Рождественский во время прогулки",
+                year: "Москва, 1970-е годы",
+                source: "Государственный музей истории литературы, искусства и культуры Алтая, Барнаул"
+            },
+            10: {
+                title: "Слева направо: певец Муслим Магомаев, композитор Арно Бабаджанян и Роберт Рождественский",
+                year: "Москва, 1970-е годы",
+                source: "Государственный музей истории литературы, искусства и культуры Алтая, Барнаул"
+            },
+            11: {
+                title: "Роберт Рождественский",
+                year: "Москва, 1963 год",
+                source: "Майя Окушко / Мультимедиа Арт Музей, Москва"
+            },
+            12: {
+                title: "Роберт Рождественский",
+                year: "Москва, 1979 год",
+                source: "Владимир Савостьянов / Фотохроника ТАСС"
+            },
+            13: {
+                title: "Роберт Рождественский (справа) во время съемок телевизионной программы",
+                year: "Москва, 1980-е годы",
+                source: "Государственный музей истории литературы, искусства и культуры Алтая, Барнаул"
+            },
+            14: {
+                title: "Роберт Рождественский за работой",
+                year: "Москва, 1980-е годы",
+                source: "Государственный музей истории литературы, искусства и культуры Алтая, Барнаул"
+            },
+            15: {
+                title: "Роберт Рождественский с женой Аллой Киреевой",
+                year: "Москва, 1960-е годы",
+                source: "Государственный музей истории литературы, искусства и культуры Алтая, Барнаул"
+            },
+            16: {
+                title: "Роберт Рождественский с дочерью Ксенией",
+                year: "Москва, начало 1970-х годов",
+                source: "Государственный музей истории литературы, искусства и культуры Алтая, Барнаул"
+            },
+            17: {
+                title: "Роберт Рождественский",
+                year: "1967–1969 годы",
+                source: "Сергей Васин / Мультимедиа Арт Музей, Москва"
+            },
+            19: {
+                title: "Слева направо: поэты Булат Окуджава, Андрей Вознесенский, Роберт Рождественский и Евгений Евтушенко",
+                year: "Переделкино, Москва, 1987 год",
+                source: "Дмитрий Бальтерманц / Мультимедиа Арт Музей, Москва"
+            }
+        };
+
+        // Все номера фотографий, которые есть в подписях
+        const photoNumbers = [1, 2, 3, 4, 5, 18, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19];
+
+        // Формат: png (или jpg — поменяйте при необходимости)
+        const photoExt = 'png';
+
+        async function loadGallery() {
+            const gallery = document.getElementById('photo-gallery');
+            gallery.innerHTML = '';
+
+            let loadedCount = 0;
+
+            for (const num of photoNumbers) {
+                const imgSrc = `../images/photo_${num}.${photoExt}`;
+                const data = photoData[num];
+
+                if (!data) continue;
+
+                const fullTitle = `${data.title}. ${data.year}`;
+                const sourceText = data.source;
+
+                const card = document.createElement('div');
+                card.className = 'photo-card';
+                card.innerHTML = `
+                    <img src="${imgSrc}"
+                         alt="${fullTitle}"
+                         onerror="this.src='https://via.placeholder.com/400x300?text=Фото+${num}+не+найдено'; this.onerror=null;">
+                    <div class="photo-caption">
+                        <span class="photo-number">📷 Фото ${num}</span>
+                        <div class="photo-title">${fullTitle}</div>
+                        <div class="photo-source">📌 ${sourceText}</div>
+                    </div>
+                `;
+                gallery.appendChild(card);
+                loadedCount++;
+            }
+
+            if (loadedCount === 0) {
+                gallery.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding: 40px;">❌ Фотографии не найдены. Поместите файлы photo_1.png ... photo_19.png в папку images/</div>';
+            }
+        }
+
+        // Форма добавления фото
+        const form = document.getElementById('uploadForm');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const fileInput = document.getElementById('photo');
+                const captionInput = document.getElementById('caption');
+
+                if (!fileInput.files || !fileInput.files[0]) {
+                    alert('Пожалуйста, выберите файл');
+                    return;
+                }
+
+                const fileName = fileInput.files[0].name;
+                const caption = captionInput.value.trim() || 'Без подписи';
+
+                alert(`✅ Спасибо!\n\nФото: ${fileName}\nПодпись: ${caption}\n\nФотография будет добавлена после модерации.`);
+                form.reset();
+            });
+        }
+
+        // Загружаем галерею
+        loadGallery();
+    </script>
+</body>
+</html>
