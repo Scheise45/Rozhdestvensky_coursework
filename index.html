@@ -4,35 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Роберт Рождественский — сайт</title>
+
     <style>
-        /* Минимальные стили для страницы с фреймами */
         body {
             margin: 0;
             padding: 0;
-            overflow: hidden;
             height: 100vh;
+            overflow: hidden;
+
+            display: flex;
+            flex-direction: column;
+
             font-family: system-ui, 'Segoe UI', sans-serif;
         }
+
         .frame-top {
             width: 100%;
             height: 80px;
             border: none;
-            overflow: hidden;
+            flex-shrink: 0;
         }
+
         .frame-content {
             width: 100%;
-            height: calc(100% - 80px);
+            flex: 1;
             border: none;
+        }
+
+        .frame-footer {
+            width: 100%;
+            height: 90px;
+            border: none;
+            flex-shrink: 0;
         }
     </style>
 </head>
 <body>
 
-    <!-- Верхний фрейм: навигационная панель -->
-    <iframe src="topbar.html" class="frame-top" title="Навигация"></iframe>
+    <iframe src="topbar.html"
+            class="frame-top"
+            title="Навигация"></iframe>
 
-    <!-- Нижний фрейм: основное содержимое -->
-    <iframe src="content.html" class="frame-content" name="contentFrame" title="Основной контент"></iframe>
+    <iframe src="content.html"
+            class="frame-content"
+            name="contentFrame"
+            title="Основной контент"></iframe>
+
+    <iframe src="footer.html"
+            class="frame-footer"
+            title="Подвал сайта"></iframe>
 
 </body>
 </html>
